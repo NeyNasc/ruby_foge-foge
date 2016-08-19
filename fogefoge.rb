@@ -8,20 +8,24 @@ def joga(nome)
 		direcao = pede_movimento
 		heroi = encontra_jogador mapa
 		mapa[heroi[0]][heroi[1]] = " "
-		case direcao
-			when "W"
-				heroi[0] -= 1
-			when "S"
-				heroi[0] += 1
-			when "A"
-				heroi[1] -= 1
-			when "D"
-				heroi[1] += 1
-		end	
+		calculando_nova_posicao heroi, direcao
 		mapa[heroi[0]][heroi[1]] = "H"
-	end
+	end	
+end
 
-	
+def calculando_ova_posicao(heroi, direcao)
+	heroi = heroi.dup
+	case direcao
+		when "W"
+			heroi[0] -= 1
+		when "S"
+			heroi[0] += 1
+		when "A"
+			heroi[1] -= 1
+		when "D"
+			heroi[1] += 1
+	end	
+		heroi
 end
 
 def inicia_fogefoge
