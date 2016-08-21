@@ -13,11 +13,19 @@ def joga(nome)
 			next
 		end
 
-
 		mapa[heroi[0]][heroi[1]] = " "
 		mapa[nova_posicao[0]][nova_posicao[1]] = "H"
 		mapa = move_fantasmas mapa
+
+		if jogador_perdeu?(mapa)
+			game_over
+			break			
+		end
 	end	
+end
+
+def jogador_perdeu?(mapa)
+	perdeu = !encontra_jogador(mapa)	
 end
 
 def calculando_nova_posicao(heroi, direcao)
@@ -53,7 +61,7 @@ def encontra_jogador(mapa)
 			return [linha, coluna_do_heroi]	
 		end
 	end
-	#não encontrei
+	nil
 end
 
 def posicao_valida?(mapa, posicao)
