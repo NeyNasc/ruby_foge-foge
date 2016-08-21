@@ -1,4 +1,5 @@
 require_relative "ui"
+require_relative "heroi"
 
 def joga(nome)
 	mapa = le_mapa(2)
@@ -8,12 +9,12 @@ def joga(nome)
 		direcao = pede_movimento
 
 		heroi = encontra_jogador mapa
-		nova_posicao = calculando_nova_posicao heroi, direcao
-		if !posicao_valida? mapa, nova_posicao
+		nova_posicao = heroi.calculando_nova_posicao direcao
+		if !posicao_valida? mapa, nova_posicao.to_array
 			next
 		end
 
-		mapa[heroi[0]][heroi[1]] = " "
+		mapa[heroi.linha][heroi.coluna] = " "
 		mapa[nova_posicao[0]][nova_posicao[1]] = "H"
 		mapa = move_fantasmas mapa
 
@@ -28,19 +29,6 @@ def jogador_perdeu?(mapa)
 	perdeu = !encontra_jogador(mapa)	
 end
 
-def calculando_nova_posicao(heroi, direcao)
-	heroi = heroi.dup
-	movimentos = {
-		"W" => [-1, 0],
-		"S" => [+1, 0],
-		"A" => [0, -1],
-		"D" => [0, +1]
-	}	
-	movimento = movimentos[direcao]
-	heroi[0] += movimento[0]
-	heroi[1] += movimento[1]
-	heroi
-end
 
 def inicia_fogefoge
 	nome = da_boas_vindas
@@ -58,7 +46,10 @@ def encontra_jogador(mapa)
 	mapa.each_with_index do |linha_atual, linha|
 		coluna_do_heroi = linha_atual.index caracter_do_heroi
 		if coluna_do_heroi
-			return [linha, coluna_do_heroi]	
+			heroi = Heroi.new
+			heroi.linha = linha
+			heroi.coluna = coluna_do_heroi
+			return heroi	
 		end
 	end
 	nil
